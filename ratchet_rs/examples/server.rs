@@ -22,7 +22,7 @@ use tokio_stream::StreamExt;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let listener = TcpListener::bind("127.0.0.1:9001").await?;
+    let listener = TcpListener::bind(std::env::args().nth(1).unwrap_or_else(|| "127.0.0.1:9001".to_owned())).await?;
     let mut incoming = TcpListenerStream::new(listener);
 
     while let Some(socket) = incoming.next().await {
